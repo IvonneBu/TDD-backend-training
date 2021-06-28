@@ -1,15 +1,23 @@
 const TravelController = require("../../controller/TravelController");
 const CountryController = require("../../controller/CountryController");
 const countryData = require("../country-list-data.json");
+const TravelModel = require("../../model/Travel");
+const httpMocks = require("node-mocks-http");
 const axios = require('axios');
 const axiosGet = axios.get;
+const newTravel = require("../travel-data.json")
 
 jest.mock('axios');
+TravelModel.create = jest.fn();
+let req, res, next;
 beforeEach(() => {
     axiosGet.mockReset();
+    req = httpMocks.createRequest();
+    res = httpMocks.createResponse();
+    next = null;
   });
 
-describe('TravelController', () => {
+describe('External Countries API', () => {
     test('should have a getListCountry function', () => {
         expect(typeof TravelController.getListCountry).toBe("function");
     });
@@ -34,6 +42,24 @@ describe('TravelController', () => {
         //assert
         expect( cleanCountryList ).toEqual(expectedCountryList);
     });
+});
+describe('Travel entries create', () => {
+    test('should call TravelModel.create', () => {
+        req.body = newTravel;
+        TravelController.createTravel(req, res, next);
+        expect(TravelModel.create).toBeCalledWith(newTravel);
+    });
+
+    test('should return 201 response code', async () => {
+        req.body = newTravel;
+        await TravelController.createTravel(req,res,next);
+        expect(res.statusCode).toBe(201);
+    });
+    
+    test('should return json body in response', async () => {
+        TravelModel.create.mockReturnValue(newTravel);
+        await TravelController.createTravel(req,res,next);
+        expect(res._getJSONData()).toEqual(newTravel);
+    });
     
 });
-
