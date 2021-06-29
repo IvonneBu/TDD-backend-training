@@ -44,9 +44,9 @@ describe('External Countries API', () => {
     });
 });
 describe('Travel entries create', () => {
-    test('should call TravelModel.create', () => {
+    test('should call TravelModel.create', async() => {
         req.body = newTravel;
-        TravelController.createTravel(req, res, next);
+        await TravelController.createTravel(req, res, next);
         expect(TravelModel.create).toBeCalledWith(newTravel);
     });
 
