@@ -15,7 +15,7 @@ describe('CountryController', () => {
     });
     test('should have a json body in getListCountry response', async () => {
         //arrange
-        axiosGet.mockResolvedValue(countryData);
+        axiosGet.mockResolvedValue({data:countryData});
         //act
         const returnedCountryResponse = await CountryController.getListCountry();
         //assert
@@ -25,7 +25,7 @@ describe('CountryController', () => {
         expect( typeof CountryController.getCountryByCode).toBe("function");
     });
     test('should have a json body in getCountryByCode response', async () => {
-        axiosGet.mockResolvedValue(singleCountryData);
+        axiosGet.mockResolvedValue({data:singleCountryData});
 
         const returnedSingleCountryResponse = await CountryController.getCountryByCode('ec');
 
