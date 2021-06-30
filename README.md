@@ -13,5 +13,4 @@ Travel diary is an app to record your travel adventures. This app can:
 - Save a post about travels in that country with
     - title
     - long description
-- List all your posts
-- Update the posts
+
