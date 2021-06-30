@@ -17,7 +17,7 @@ beforeEach(() => {
     next = null;
   });
 
-describe('External Countries API', () => {
+describe('TravelController: External Countries API', () => {
     test('should have a getListCountry function', () => {
         expect(typeof TravelController.getListCountry).toBe("function");
     });
@@ -38,12 +38,12 @@ describe('External Countries API', () => {
                 "flag": "https://restcountries.eu/data/ala.svg"}
         ]
         //act
-        const cleanCountryList = await TravelController.getListCountry();
+        await TravelController.getListCountry(req,res,next);
         //assert
-        expect( cleanCountryList ).toEqual(expectedCountryList);
+        expect(res._getJSONData()).toEqual(expectedCountryList);
     });
 });
-describe('Travel entries create', () => {
+describe('TravelController: Travel entries create', () => {
     test('should call TravelModel.create', async() => {
         req.body = newTravel;
         await TravelController.createTravel(req, res, next);

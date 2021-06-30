@@ -1,15 +1,16 @@
 const CountryController = require("../controller/CountryController")
 const TravelModel = require("../model/Travel");
 
-exports.getListCountry = async () => {
+exports.getListCountry = async (req,res,next) => {
     const countryList = await CountryController.getListCountry();
-    return  cleanUpList(countryList)
+    const countrySimpleList = cleanUpList(countryList);
+    res.status(200).json(countrySimpleList);
 }
 exports.createTravel = async (req,res,next) => {
     const createdTravel = await TravelModel.create(req.body);
     res.status(201).json(createdTravel);
 }
-const cleanUpList = ( countryList ) => {
+const cleanUpList = (countryList) => {
   let  cleanCountryList = countryList.map(country => {
         let single = {
             "name" : country.name,
